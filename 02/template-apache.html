@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="title">{{title}}</title>
+    <style>
+        table{
+            border-collapse: collapse;
+        }
+
+        th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <thead>
+            <tr class="header" id="theader">
+                <th onclick="javascript:sortTable(0)">名称</th>
+                <th class="detailsColumn" onClick="javascript:sortTable(1)">大小</th>
+                <th class="detailsColumn" onClick="javascript:sortTable(2)">修改日期</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            {{each files}}
+            <tr data-value="apple"><a class="icon dir" href="/C:/Users/admin/Desktop/www/apple"></a>
+                <td>{{$value}}</td>
+                <td class="detailsColumn" data-value="0"></td>
+                <td class="detailsColumn" data-value="1509589967">2020/10/30 下午15:06:50</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</body>
+
+</html>
