@@ -9,48 +9,80 @@
 
 var http = require("http");
 var fs = require("fs");
+var url = require("url");
 var template = require("art-template");
-var comments= [
-    { name: "张三1", message: "今天天气好好", dataTime: "2020/11/02" },
-    { name: "张三2", message: "今天天气好好", dataTime: "2020/11/02" },
-    { name: "张三3", message: "今天天气好好", dataTime: "2020/11/02" },
-    { name: "张三4", message: "今天天气好好", dataTime: "2020/11/02" },
-  ]
+var comments = [
+  { name: "张三1", message: "今天天气好好", dataTime: "2020/11/02" },
+  { name: "张三2", message: "今天天气好好", dataTime: "2020/11/02" },
+  { name: "张三3", message: "今天天气好好", dataTime: "2020/11/02" },
+  { name: "张三4", message: "今天天气好好", dataTime: "2020/11/02" },
+];
 
+//结论：对于我们来讲，其实只需要判定，如果你的请求路径是/pinglun 的时候那我就认为你提交的表单请求过来了
 http
   .createServer(function (req, res) {
-    //简写方式，该函数会直接被注册为 server 的
-    var url = req.url;
-    if (url === "/") {
+    //简写方式，该函数会直接被注册为 server 的 request 请求事件处理函数
+    //使用 url.parse 方法将路径解析为一个方便操作的对象，第二个参数为true表示直接将查询字符串转为一个对象
+    var parseObj = url.parse(req.url, true);
+    //单独获取不包含查询字符串的路径部分 (该路径不包含？之后的内容)
+    var pathname = parseObj.pathname;
+    if (pathname === "/") {
       fs.readFile("./views/index.html", function (err, data) {
         if (err) {
           return res.end("404 Not Found");
         }
         var htmlStr = template.render(data.toString(), {
-            comments:comments
+          comments: comments,
         });
         res.end(htmlStr);
       });
-    } else if (url === "/post") {
+    } else if (pathname === "/post") {
       fs.readFile("./views/post.html", function (err, data) {
         if (err) {
           return res.end("404 Not Found.");
         }
         res.end(data);
       });
-    } else if (url.indexOf("/public") === 0) {
+    } else if (pathname.indexOf("/public") === 0) {
       // public/css/bootstrap-v3.3.7.css
       // public/js/main.btn-group-justified
       // public/lib/jquery.btn-group-justified
       // 统一处理
       //    如果请求路径是以 public/开头的，则我认为你要获取 publick 中的某个资源
       //    所以我们就直接可以把请求路径当作文件路径来直接进行读取
-      fs.readFile("." + url, function (err, data) {
+      fs.readFile("." + pathname, function (err, data) {
         if (err) {
           return res.end("404 Not Found");
         }
         res.end(data);
       });
+    } else if (pathname === "/pinglun") {
+      //注意：这个时候无论/pinglun？xxx 之后是什么我都不用担心因为我的 pathname 是
+      //一次请求对应一次响应，响应结束这次请求就结束了
+      //console.log("收到表单请求了",parseObj.query);
+      //res.end(JSON.stringify(parseObj.query));
+      //我们已经使用 url 模块的 parse 方法 把请求路径中的查询字符串给解析成一个对象了
+      //所以接下来要做
+      //    1.获取表单提交的数据 parseObj.query
+      //     2.生成日期到数据对象中，然后存储到数组中
+      //     3.让用户重定向跳转到首页 /
+      //       当用户重新请求 / 的时候，我数组中的数据已经发生变化了，所以用户看到的页面数据更新了
+      var comment = parseObj.query;
+      comment.dataTime = new Date();
+      comments.unshift(comment);
+
+      //服务端这个时候已经把数据存储好了，接下来让用户重新请求 / 首页，就可以看到最新的列表内容了
+
+      //如何通过服务器让客户端重定向？
+      // 1.状态码设置为 302 临时重定向
+      //    statusCode
+      // 2.在响应头中通过 Location 告诉客户端往哪儿重定向
+      //    setHeader
+      // 如果客户端发现收到服务器的响应的状态码是 302 就会自动去响应头中找 Location ，然后进行重定向
+      //所以你能看到客户端自动跳转了
+      res.statusCode = 302;
+      res.setHeader("Location", "/");
+      res.end()
     } else {
       //其他的都处理成404找不到
       fs.readFile("./views/404.html", function (err, data) {
@@ -64,3 +96,19 @@ http
   .listen(3000, function () {
     console.log("running...");
   });
+
+  //1. / index.html
+  //2.开放 public 目录中的静态资源
+  //   当请求 /public/xxx 的时候，读取响应 public 目录中的具体资源
+  //3./post post.html
+  //4./pinglun
+      //4.1 接收表单提交数据
+      //4.2 存储表单提交的数据
+      //4.3 让表单重定向到 /
+          //statusCode 
+          //setHeader
+    
+//接下来
+//模块系统
+//Express (第三方 web 开发框架)
+//使用框架让我们专注业务,而不是底层细节
