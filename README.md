@@ -85,4 +85,69 @@
   + 例如京东的商品列表就采用的是服务端渲染，目的是为了 SEO 搜索引擎优化
   + 而他的商品评论列表为了用户体验， 而且也不需要 SEO 优化，所以采用的是客户端渲染
 
-# nodeStudy
+# Node.js 第三天课堂笔记
+
+## 知识点
+
+- 模块系统
+  + 核心模块
+  + 第三方模块
+  + 自己写的模块
+  + 加载规则及加载机制
+  + 循环加载
+- npm
+- package.json
+- Express
+  + 第三方 web 开发框架
+  + 高度封装了 http 模块
+  + 更加专注于业务，而非底层细节
+  + 知其所以然
+- 增删改查
+ + 使用文件来保存数据 (锻炼异步编码)
+- MongoDB
+ + (所有方法都封装好了)
+- 学习书籍
+ + 《javascript 高级编程》 第三版 《javascript 语言精粹》
+
+- 网站开发模型
+ + 黑盒子、哑巴
+ + 写代码让他变的更加智能
+ + 按照你设计好的套路供用户使用
+
+- 在 Node 中使用 art-template 模板引擎
+ + 安装
+ + 加载
+ + template.render()
+- 客户端渲染和服务端渲染的区别
+ + 最少两次请求，发起ajax 在客户端使用模板引擎渲染
+ + 客户端拿到的就是服务器端已经渲染好的
+- 处理留言本案例首页数据渲染展示
+- 处理留言本案例发表留言功能
+ + 路径
+ + 设计好的请求路径
+ + php $GET 直接或查询字符串数据
+ + Node 中需要我们自己动手来解析
+  * url.parse()
+ 
+ + /pinglun?name=jack&message=hello
+ + splict("?")
+ + name=jack&message=hello
+ + splict("&")
+ + name=jack  message=hello
+ + forEach()
+ + name=jack.splict('=')
+ + 0 key
+ + 1 value
+- 掌握如何让解析请求路径中的查询字符串
+ + url.parse()
+- 如何在 Node 中实现服务器重定向
+ + header('location')
+  * 301 永久重定向 浏览器会记住
+   - a.com b.com
+   - a 浏览器不会请求a了
+   - 直接跳转b
+  * 302 临时重定向 浏览器不记忆
+   - a.com b.com
+   - a.com 还会请求 a
+   - a 告诉浏览器你往b
+- Node 中的 Console (REPL) 使用 
