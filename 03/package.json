@@ -1,0 +1,14 @@
+{
+  "name": "npm-demo",
+  "version": "0.0.1",
+  "description": "测试",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "南风",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

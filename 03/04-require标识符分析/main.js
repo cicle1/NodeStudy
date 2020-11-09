@@ -23,4 +23,42 @@
 // node_mpdules/art-template
 // node_modules/art-template/package.json 文件
 // node_modules/art-template/package.json 文件中的main 属性
+// var template=require('art-template')
+
+
+//注意：我们一个项目有且只有一个 node_modules,放在项目根目录中，这样的话项目中所有的子目录都可以访问到
+//不会出现有多个 node_modules
+// 模块查找机制
+//  优先从缓存加载
+//  核心模块
+//  路径形式的文件模块
+//  第三方模块
+//     node_modules/art-template/
+//     node_modules/art-template/package.json
+//     node_modules/art-template/package.json main
+//     index.js 备选项
+//     进入上一级目录找 node_modules
+//     按照这个规则依次往上找，直到磁盘根目录还找不到，最后报错：Can not find module xxx
+//     一个项目有且只有一个 node_modules 而且是存放到项目根目录
+
+
+//main 属性中记录了 art-template 的入口模块
+//然后加载使用这个第三方包
+//实际上加载的还是文件
+
+//如果 package.json 文件不存在或者 main 指定的入口模块没有
+//则 node 会自动找该目录下的 index.js 
+//也就是说 index.js 会作为一个默认备选项
+
+//如果以上任何一个条件不成立，则会进入上一级目录中的 node_modules 目录查找
+//如果上一级还没有，则继续往上上一级查找
+//。。。
+//如果直到当前磁盘根目录还找不到，最后报错：
+// can not find module.xxx
+
+//注意：我们一个项目有且只有一个 node_modules 放在根目录中，这样的话项目中所有的子目录都可以访问到
+//不会出现多个 node_modules
+
 var template=require('art-template')
+
+require("a")
