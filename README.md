@@ -211,3 +211,29 @@
     + 但是有一种赋值方式比较特殊：`exports=module.exports` 这个用来重新建立引用关系的
 - 301 和 302 状态码区别
 - exports 和 module.exports 的区别
+  ## 下午总结
+  - jquery 的 each 和 原生的 JavaScript 方法 forEach
+  - 301 和 302 的区别
+  - 模块中导出单个成员和多个成员的方式
+  - module.exports 和 exports 的区别
+  - require 方法加载规则
+    + 优先从缓存加载
+    + 核心模块
+    + 路径形式的模块
+    + 第三方模块
+      * node_modules
+  - package.json 包描述文件
+    + dependencies 选项的作用
+  - npm 常用命令
+  - Express 基本使用
+  - 使用 Express 把之前的留言本案例自己动手改造下
+
+  # Node.js 第4天课堂笔记’
+
+  ## 知识点
+
+  - Express
+  - 基于文件做一套 CRUD 增删查改
+
+ 
+  
