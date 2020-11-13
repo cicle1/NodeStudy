@@ -478,7 +478,145 @@ app.get('/',function(req,res){
 //注意：第一个参数 views 千万不要写错
 app.set('views',目录路径)
 ```
+#### 7.3.在 Express中获取表单 GET 请求参数
+Express 内置了一个 API ，可以直接通过 `req.query`来获取
+```javascript
+req.query
+```
+#### 7.4.在 Express 获取表单 POST 请求体数据
+在 Express 中没有内置获取表单 POST 请求体的 API ，这里我们需要使用一个第三方包，`body-parser`
 
+安装：
+```shell
+npm install --save body-parser
+```
+
+配置：
+```javascript
+var express = require('express')
+//0.引包
+var bodyParser = require('body-parser')
+
+var app = express()
+
+//配置 body-parser
+//只要加入这个配置，则在 req 请求对象上会多出来一个属性：body
+//也就是说你就可以直接通过 req.body 来获取表单 POST 请求体数据了
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
+```
+使用：
+```javascript
+app.use(function (req, res) {
+  res.setHeader('Content-Type', 'text/plain')
+  res.write('you posted:\n')
+  //可以通过 req.body 来获取表单 POST 请求体数据
+  res.end(JSON.stringify(req.body, null, 2))
+})
+```
+#### 7.5.CRUD 案例
+
+##### 7.5.1.起步
+ * 初始化
+ * 安装依赖
+ * 模板处理
+##### 7.5.2.路由设计
+- [ ] | 请求方法 | 请求路径         | get 参数 | post 参数                  | 备注             |
+      | -------- | ---------------- | -------- | -------------------------- | ---------------- |
+      | GET      | /students        |          |                            | 渲染首页         |
+      | GET      | /students/new    |          |                            | 渲染添加学生页面 |
+      | POST     | /students        |          | name、age、gender、hobbies | 处理添加学生请求 |
+      | GET      | /students/edit   | id       |                            | 渲染编辑         |
+      | POST     | /students/edit   |          | id、age、gender、hobbies   | 处理编辑请求     |
+      | GET      | /students/delete | id       |                            | 处理删除请求     |
+##### 7.5.3.提取路由模块
+router.js
+```javascript
+/**
+ * router.js 路由模块
+ * 职责：
+ *   处理路由
+ *   根据不同的请求方法+请求路径设置具体的请求处理函数
+ *   模块职责要单一,不要乱写
+ *   我们划分模块的目的就是为了增强项目代码
+ *   提升开发效率
+ */
+
+var fs = require("fs");
+
+//Express 提供了一种更好的方式
+//专门用来包装路由的
+var express = require("express");
+
+//1.创建一个路由容器
+var router = express.Router();
+
+//2.把路由挂载到 router 路由容器中
+router.get("/students", function (req, res) {});
+
+router.get("/students/new", function (req, res) {});
+
+router.post("/students/new", function (req, res) {});
+
+router.get("/students/edit", function (req, res) {});
+
+router.post("/students/edit", function (req, res) {});
+
+router.get("/students/delete", function (req, res) {});
+//3.把 router 导出
+module.exports = router;
+
+```
+app.js
+```javascript
+var router=require('./router')
+
+//挂载路由
+app.use(router)
+
+```
+##### 7.5.4.设计操作数据的 API 文件模块
+```javascript
+/**
+ * student.js
+ * 数据操作文件模块
+ * 职责：操作文件中的数据，只处理数据，不关心业务
+ */
+
+/**
+ * 获取所有学生列表
+ * return []
+ */
+exports.find=function(){
+
+}
+
+ /**
+ * 添加保存学生
+ */
+exports.save=function(){
+    
+}
+
+ /**
+ * 更新学生
+ */
+exports.update=function(){
+    
+}
+
+ /**
+ * 删除学生
+ */
+exports.delete=function(){
+    
+}
+
+```
 - MongoDB
 
 # 9.其他

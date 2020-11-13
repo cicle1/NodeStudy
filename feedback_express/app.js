@@ -1,4 +1,5 @@
 var express = require("express");
+var bodyParser = require('body-parser')
 var app = express();
 
 app.use("/public", express.static("./public"));
@@ -18,6 +19,13 @@ app.engine("html", require("express-art-template"));
 
 //如果想要修改默认的 views 目录，则可以
 //app.set('views',render函数的默认路径)
+
+
+//配置 body-parser 中间件(插件，专门用来解析表单 POST 请求体)
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
 var comments = [
   { name: "张三1", message: "今天天气好好", dataTime: "2020/11/02" },
   { name: "张三2", message: "今天天气好好", dataTime: "2020/11/02" },
@@ -33,16 +41,36 @@ app.get("/", function (req, res) {
 app.get("/post", function (req, res) {
   res.render('post.html')
 });
-app.get("/pinglun", function (req, res) {
-  var comment = req.query;
-  comment.dataTime = new Date();
-  comments.unshift(comment);
-  res.redirect("/");
 
-  //res.statusCode=302
-  //res.setHeader('Location','/')
+//当以 POST 请求 /post 的时候，执行指定的处理函数
+//这样的话我们就可以利用不同的请求方法让一个请求路径使用多次
+app.post("/post", function (req, res) {
+  // console.log("收到表单 post 请求了")
+  //1.获取表单 POST 请求体数据
+  //2.处理
+  //3.发送响应数据
 
+  //req.query 只能拿 get 请求参数
+  //console.log(req.query)
+
+  var comment=req.body
+  comment.dataTime=new Date()
+  comments.unshift(comment)
+  //res.send
+  //res.redirect
+  //这些方法 Express 会自动结束响应
+  res.redirect('/')
 });
+// app.get("/pinglun", function (req, res) {
+//   var comment = req.query;
+//   comment.dataTime = new Date();
+//   comments.unshift(comment);
+//   res.redirect("/");
+
+//   //res.statusCode=302
+//   //res.setHeader('Location','/')
+
+// });
 app.listen(3000, function () {
   console.log("running...");
 });
