@@ -235,5 +235,38 @@
   - Express
   - 基于文件做一套 CRUD 增删查改
 
- 
+ # 第五天反馈
+  - submit 格式化插件 HTML-CSS-JS Prettify
+  - 模块化
+    * PHP 中直接 `require` 、`include` 因为当初设计时就加入了这个功能
+    * PHP 这门语言天生就支持
+    * 模块作用域
+    * 可以使用 API 来进行文件与文件之间的依赖加载
+    * 在 Node 这个环境对 JavaScript 进行了特殊的模块化支持 CommonJs
+    * JavaScript 天生不支持模块化
+      * require
+      * exports
+      * Node.js 才有的
+  - 在浏览器中也可以像在 Node 中的模块一样来编程
+    * `script` 标签来引用加载，而且你还必须考虑加载的顺序问题
+    * require.js 第三方库 AMD
+    * sea.js 第三方库     CMD
+  - 无论是 CommonJs、AMD、CMD、UMD、EcmaScript 6 Modeules 官方规范
+    * 都是为了解决 JavaScript 的模块化问题
+    * CommonJs、AMD、CMD 都是民间搞出来的
+    * EcmaScript 是官方定义
+    * 官方看民间在乱搞，开发人员为了在不同的环境使用不同的 JavaScript 模块化解决方案
+    * 所以 EcmaScript 在2015年发布了EcmaScript 2016 官方标准
+    * 其中就包含了官方对 JavaScript 模块化的支持
+    * 也就是说语言天生就支持了
+    * 但是虽然标准已经发布了，但是很多 JavaScript 运行环境还不支持
+    * Node 也是在 8.5 版本之后才对 EcmaScript 6 module 进行了支持
+    * 使用新技术就是为了提高效率，增加可维护性
+  - var router=require('./router) 这一步不是加载router.js并执行该文件吗为什么还要执行 app.use(router)
+    * 这里涉及到一个中间件的概念
+    * app.use 不仅仅是用来处理静态资源的
+    * 还可以做很多工作
+    * 配置 body-parse 
+    * 这叫中间件，其中有一套规则
+    
   

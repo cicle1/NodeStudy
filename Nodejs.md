@@ -263,16 +263,17 @@
     require("a");
     ```
 
-  * npm
-    - node package manager
+  ## 6.npm
 
-  - npm 网站
+  node package manager
+
+  ### 6.1.npm 网站
 
   ```shell
      npmjs.com
   ```
 
-  - npm 命令行工具
+  ### 6.2.npm 命令行工具
     npm 的第二层含义就是一个命令行工具，只要逆安装了 node 就已经安装了 npm
     npm 也有版本这个概念
     可以通过命令行中输入:
@@ -287,7 +288,7 @@
   npm install --global npm
   ```
 
-  - 常用命令
+  ### 6.3.常用命令
 
   * npm init
     - npm init -y 可以跳过向导，快速生成
@@ -376,14 +377,27 @@
 - 建议每个项目的目录下都有一个 `package.json` 文件
 - 建议执行 `npm install 包名` 的时候都加上 `--save` 这个选项，目的是用来保存依赖项信息
 
-# 7.Express
+### 6.1.4.package.json 和 package-lock.json
+npm5 以前是不会有 `package-lock.json` 这个文件的。
+npm5 以后才加入了这个文件。
+当你安装包的时候，npm 都会生成或者更新 `pack-lock.json` 这个文件
+ * npm5 以后的版本安装包不需要加 `--save` 参数，它会自动保存依赖信息。
+ * 当你安装包的时候，会自动创建或者更新 `package-lock.json` 这个文件
+ * `package-lock.json` 这个文件会保存 `node_modules` 中的所有包的信息(版本、下载地址)
+   * 这样的话重新 `npm install` 的时候速度就可以提升
+ * 从文件来看，有一个`lock` 称之为 锁
+   * 这个 `lock` 是用来锁定版本的
+   * 如果项目依赖了 `1.1.1` 版本
+   * 如果你重新 install 其实会下载最新版本，而不是1.1.1 这个版本
+   * 所以这个 `package-lock.json` 这个文件的另一个作用就是锁定版本号，防止自动升级最新版
+ ## 7.Express
 
 原生的 http 在某些方面表现不足以应对我们的开发需求，所以我们就需要使用框架来加快我们的开发效率，框架的目的就是提高效率，让我们的代码更高度统一。
 在 Node 中，有很多 Web 开发框架，我们这里以学习 `express` 为主。
 
 - http://expressjs.com/
 
-#### 7.1.起步
+### 7.1.起步
 
 安装：
 
@@ -391,7 +405,7 @@
 npm install --save express
 ```
 
-#### 7.1.2 hello word
+### 7.1.2 hello word
 
 ```javascript
 const express = require("express");
@@ -402,7 +416,7 @@ app.get("/", (req, res) => res.send("Hello word!"));
 app.listen(3000, () => console.log("Example app listening on port 3000!"));
 ```
 
-#### 7.1.3.基本路由
+### 7.1.3.基本路由
 
 路由器
 
@@ -427,7 +441,7 @@ app.post("/", function (req, res) {
 });
 ```
 
-#### 7.1.4.静态服务
+### 7.1.4.静态服务
 
 ```javascript
 // /public资源
@@ -445,7 +459,7 @@ app.use("/static", experss.static("static"));
 app.use("/static", express.static(path.join(_dirname, "public")));
 ```
 
-#### 7.2 在 Express 中配置使用 `art-template` 模板引擎
+### 7.2 在 Express 中配置使用 `art-template` 模板引擎
 
 - art-template-GitHub 仓库 https://github.com/aui/art-template
 - art-template 官方文档 https://aui.github.io/art-template/express/
@@ -459,72 +473,85 @@ npm install --save express-art-template
 配置：
 
 ```javascript
-app.engine('html', require('express-art-template'));
-
+app.engine("html", require("express-art-template"));
 ```
 
 使用：
 
 ```javascript
-app.get('/',function(req,res){
+app.get("/", function (req, res) {
   //express 默认会去项目中的 views 目录找 index.htnl
- res.render('index.html',{
-   title:'hello word'
- })
-})
+  res.render("index.html", {
+    title: "hello word",
+  });
+});
 ```
+
 如果希望修改默认的 `views` 视图渲染存储目录，可以：
+
 ```javascript
 //注意：第一个参数 views 千万不要写错
-app.set('views',目录路径)
+app.set("views", 目录路径);
 ```
-#### 7.3.在 Express中获取表单 GET 请求参数
+
+### 7.3.在 Express 中获取表单 GET 请求参数
+
 Express 内置了一个 API ，可以直接通过 `req.query`来获取
+
 ```javascript
-req.query
+req.query;
 ```
-#### 7.4.在 Express 获取表单 POST 请求体数据
+
+### 7.4.在 Express 获取表单 POST 请求体数据
+
 在 Express 中没有内置获取表单 POST 请求体的 API ，这里我们需要使用一个第三方包，`body-parser`
 
 安装：
+
 ```shell
 npm install --save body-parser
 ```
 
 配置：
-```javascript
-var express = require('express')
-//0.引包
-var bodyParser = require('body-parser')
 
-var app = express()
+```javascript
+var express = require("express");
+//0.引包
+var bodyParser = require("body-parser");
+
+var app = express();
 
 //配置 body-parser
 //只要加入这个配置，则在 req 请求对象上会多出来一个属性：body
 //也就是说你就可以直接通过 req.body 来获取表单 POST 请求体数据了
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
-app.use(bodyParser.json())
-
+app.use(bodyParser.json());
 ```
+
 使用：
+
 ```javascript
 app.use(function (req, res) {
-  res.setHeader('Content-Type', 'text/plain')
-  res.write('you posted:\n')
+  res.setHeader("Content-Type", "text/plain");
+  res.write("you posted:\n");
   //可以通过 req.body 来获取表单 POST 请求体数据
-  res.end(JSON.stringify(req.body, null, 2))
-})
+  res.end(JSON.stringify(req.body, null, 2));
+});
 ```
-#### 7.5.CRUD 案例
 
-##### 7.5.1.起步
- * 初始化
- * 安装依赖
- * 模板处理
-##### 7.5.2.路由设计
+### 7.5.CRUD 案例
+
+#### 7.5.1.起步
+
+- 初始化
+- 安装依赖
+- 模板处理
+
+#### 7.5.2.路由设计
+
 - [ ] | 请求方法 | 请求路径         | get 参数 | post 参数                  | 备注             |
       | -------- | ---------------- | -------- | -------------------------- | ---------------- |
       | GET      | /students        |          |                            | 渲染首页         |
@@ -533,8 +560,11 @@ app.use(function (req, res) {
       | GET      | /students/edit   | id       |                            | 渲染编辑         |
       | POST     | /students/edit   |          | id、age、gender、hobbies   | 处理编辑请求     |
       | GET      | /students/delete | id       |                            | 处理删除请求     |
-##### 7.5.3.提取路由模块
+
+#### 7.5.3.提取路由模块
+
 router.js
+
 ```javascript
 /**
  * router.js 路由模块
@@ -569,17 +599,19 @@ router.post("/students/edit", function (req, res) {});
 router.get("/students/delete", function (req, res) {});
 //3.把 router 导出
 module.exports = router;
-
 ```
+
 app.js
+
 ```javascript
-var router=require('./router')
+var router = require("./router");
 
 //挂载路由
-app.use(router)
-
+app.use(router);
 ```
-##### 7.5.4.设计操作数据的 API 文件模块
+
+#### 7.5.4.设计操作数据的 API 文件模块
+
 ```javascript
 /**
  * student.js
@@ -591,37 +623,120 @@ app.use(router)
  * 获取所有学生列表
  * return []
  */
-exports.find=function(){
+exports.find = function () {};
 
-}
-
- /**
+/**
  * 添加保存学生
  */
-exports.save=function(){
-    
-}
+exports.save = function () {};
 
- /**
+/**
  * 更新学生
  */
-exports.update=function(){
-    
-}
+exports.update = function () {};
 
- /**
+/**
  * 删除学生
  */
-exports.delete=function(){
-    
+exports.delete = function () {};
+```
+
+#### 7.5.5.自己编写的步骤
+
+- 处理模板
+- 配置开放静态资源
+- 配置模板引擎
+- 简单路由：/students 渲染静态页面出来
+- 路由设计
+- 提取路由模块
+- 由于接下来的一系列的业务操作都需要文件数据，所以我们需要封装 student.js
+- 先写好 students.js 文件结构
+  - 查询所有学生列表的 API find
+  - findById
+  - save
+  - updateById
+  - deleteById
+- 实现具体功能
+  - 通过路由收到请求
+  - 接收请求中的数据(get、post)
+    - req.query
+    - req.body
+  - 调用数据操作 API 处理数据
+  - 根据操作结果给客户端发送响应
+- 业务功能顺序
+  - 列表
+  - 添加
+  - 编辑
+  - 删除
+- find
+- findIndex
+
+## 8.MongoDB
+
+## 9.异步编程
+
+### 9.1 回调函数
+
+不成立的情况
+
+```javascript
+function add(x, y) {
+  console.log(1);
+  setTimeout(function () {
+    console.log(2);
+    var ret = x + y;
+    return ret;
+  }, 1000);
+  console.log(3);
+  //到这里就执行结束了
 }
 
+console.log(add(10, 20)); //=>undefind
 ```
-- MongoDB
 
-# 9.其他
+回调函数
 
-#### 9.2.修改完代码自动重启
+```javascript
+function add(x, y, callback) {
+  //callback 就是回调函数
+  // var x=10
+  // var y= 20
+  //var callback=function(ret){console.log(ret)}
+  console.log(1);
+  setTimeout(function () {
+    var ret = x + y;
+    callback(ret);
+  }, 1000);
+}
+
+add(10, 20, function (ret) {
+  console.log(ret);
+  //我现在拿到这个结果可以做任何操作
+});
+```
+
+基于原生 XMLHTTPRequest 封装 get 方法
+
+```javascript
+function get(url, callback) {
+  var oReq = new XMLHttpRequest();
+  //当请求加载成功之后要调用指定的函数
+  oReq.onload = function () {
+    //我们需要得到这里的 oReq.responseText
+    console.log(oReq.responseText);
+    callback(oReq.responseText);
+  };
+  oReq.open("get", "url", true);
+  oReq.send();
+}
+get("data.json", function (data) {
+  console.log(data);
+});
+```
+
+## 10.其他
+
+### 10.2.修改完代码自动重启
 
 我们这里可以是哟个一个第三方命令行工具， `nodemon` 来帮我们解决频繁修改代码重启服务器问题。
 `nodemon` 是一个基于 Node.js 开发的一个第三方命令行工具，我们使用的时候需要独立安装
@@ -641,7 +756,7 @@ nodemon app.js
 
 只要是通过 `nodemon app.js` 启动的服务，则它会监视你的文件变化，当文件发生变化的时候，自动帮你重启服务器。
 
-#### 9.3 文件操作路径和模块路径
+### 10.3 文件操作路径和模块路径
 
 文件操作路径
 

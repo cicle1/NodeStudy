@@ -94,13 +94,30 @@ router.get("/students/edit", function (req, res) {
  * 处理编辑学生
  */
 router.post("/students/edit", function (req, res) {
-  console.log(req.body)
+  //1.获取表单数据
+  //  req.body
+  //2.更新
+  //  Student.updateById()
+  //3.发送响应
+  Student.updateById(req.body,function(err){
+    if(err){
+      return res.status(500).send("Server error");
+    }
+    res.redirect('/students')
+  })
 });
 
 /**
  * 处理删除学生
  */
-router.get("/students/delete", function (req, res) {});
+router.get("/students/delete", function (req, res) {
+  Student.deleteById(req.query.id,function(err){
+    if(err){
+      return res.status(500).send("Server error");
+    }
+    res.redirect('/students')
+  })
+});
 
 //3.把 router 导出
 module.exports = router;

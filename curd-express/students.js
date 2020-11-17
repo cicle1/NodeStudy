@@ -39,7 +39,7 @@ exports.findById = function (id, callback) {
     }
     var students = JSON.parse(data).students;
     var ret = students.find(function (item) {
-      return item.id === id;
+      return item.id === parseInt(id);
     });
     callback(null, ret);
   });
@@ -80,18 +80,20 @@ exports.save = function (student, callback) {
 /**
  * 更新学生
  */
-exports.updateById = function (students, callback) {
+exports.updateById = function (student, callback) {
   fs.readFile(dbPath, "utf8", function (err, data) {
     if (err) {
       return callback(err);
     }
     var students = JSON.parse(data).students;
+
+    student.id = parseInt(student.id);
     //你要修改谁，就需要把谁找出来
     //EcmaScript 6 中的一个数组方法：find
     //需要接收一个函数作为参数
     //当某个遍历项符合 item.id===student.id 条件的时候，find 会终止遍历，同时返回遍历项
     var stu = students.find(function (item) {
-      return item.id === student.id;
+      return item.id === parseInt(student.id);
     });
 
     //这种方式你就写死了，有100 个难道写100次吗
@@ -104,7 +106,7 @@ exports.updateById = function (students, callback) {
     }
 
     //把对象数据转换为字符串
-    var fileData = JSON.stringify({
+    var fileDate = JSON.stringify({
       students: students,
     });
 
@@ -122,4 +124,35 @@ exports.updateById = function (students, callback) {
 /**
  * 删除学生
  */
-exports.delete = function () {};
+exports.deleteById = function (id, callback) {
+  //1.获取要删除的id
+  //2.根据id执行删除操作
+  //3.根据操作结果发送响应数据
+  fs.readFile(dbPath, "utf8", function (err, data) {
+    if (err) {
+      return callback(err);
+    }
+    var students = JSON.parse(data).students;
+
+    //findIndex 方法专门用来根据条件查找元素下标
+    var deleteId = students.findIndex(function (item) {
+      return item.id === parseInt(id);
+    });
+
+    students.splice(deleteId,1)
+
+    //把对象数据转化成字符串
+    var fileDate = JSON.stringify({
+      students: students,
+    });
+
+    //把字符串写入文件
+    fs.writeFile(dbPath, fileDate, function (err) {
+      if (err) {
+        return callback(err);
+      }
+      //成功就没错,所以错误对象是null
+      callback(null);
+    });
+  });
+};
