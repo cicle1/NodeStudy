@@ -268,5 +268,29 @@
     * 还可以做很多工作
     * 配置 body-parse 
     * 这叫中间件，其中有一套规则
+
+# 第五天上午总结
+ + 异步编程
+ + 如果需要得到一个函数内部异步操作的结果，这时候可以通过回调函数来获取
+ + 在调用的位置传递一个函数进来
+ + 在封装的函数内部调用传进来的函数
+ find findIndex forEach
+ + 数组的遍历方法，都是对函数作为参数一种运用
+ + every
+ + some
+ + includes
+ + map
+ + reduce
+- package-lock.json 文件的作用
+ + 下载速度快了
+ + 锁定版本
+- JavaScript模块化
+ + Node 中的CommonJs
+ + 浏览器中的
+   * AMD require.js
+   * CMD sea.js
+ + EcmaScript 官方在 EcmaScritp 6中增加了官方支持
+ + EcmaScript 6
+- MongoDB 数据库
     
   

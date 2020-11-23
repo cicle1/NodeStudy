@@ -692,11 +692,49 @@ exports.delete = function () {};
  * MongoDB 不需要设计表结构
  * 也就是说你可以任意的往里面存数据，没有结构性这么一说
 ### 8.2.安装
- * 64位下载地址 https://www.mongodb.com/try/download/community
+ * 64位下载地址 https://www.mongodb.org/dl/win32
+ * 32位下载地址 https://www.mongodb.org/dl/win32/i386
  * 下载
  * 安装
  * 配置环境变量
  * 最后输入 `mongod --varsion` 查看是否安装成功
+### 8.3.启动和关闭数据库
+启动：
+```shell
+# mongodb 默认使用执行 mongo 命令所处盘符根目录下的 /data/db 作为自己的数据存储目录
+# 所以在第一次执行该命令之前先自己手动建一个 /data/db
+mongod
+```
+如果想要修改默认的数据存储目录，可以：
+```shell
+mongod --dbpath=数据存储目录路径
+```
+停止：
+```shell
+在开启服务额控制台，直接 Ctrl+c 即可停止
+或者直接关闭开启服务器的控制台也可以
+```
+### 8.4.连接和退出数据库
+连接：
+```shell
+# 该命令默认连接本机的 MongoDB 服务
+mongo
+```
+退出：
+```shell
+# 在连接状态输入 exit 退出连接
+exit
+```
+### 8.5.基本命令
+- `show dbs`
+  * 查看显示所有的数据库
+- `use 数据库名称`
+  * 切换到指定的数据库(如果没有会新建)
+- 插入数据
+### 8.6.在 Node 中如何操作 MongoDB 数据
+#### 8.6.1.使用官方的 `mongodb` 包来操作
+https://github.com/mongodb/node-mongodb-native
+#### 8.6.2.使用第三方 mongoose 来操作 MongoDB 数据库
 
 
 ## 9.异步编程
@@ -761,8 +799,59 @@ get("data.json", function (data) {
 ```
 
 ## 10.其他
+### 10.2.Promise
+callback hell
 
-### 10.2.修改完代码自动重启
+不按顺序执行的代码
+```javascript
+var fs = require("fs");
+
+fs.readFile("./data/a.txt", "utf8", function (err, data) {
+  if (err) {
+    //return console.log("读取失败")
+    //抛出异常
+    //   1.阻止程序的执行
+    //   2.把错误消息打印到控制台
+    throw err;
+  }
+  console.log(data);
+});
+
+
+fs.readFile("./data/b.txt", "utf8", function (err, data) {
+    if (err) {
+      //return console.log("读取失败")
+      //抛出异常
+      //   1.阻止程序的执行
+      //   2.把错误消息打印到控制台
+      throw err;
+    }
+    console.log(data);
+  });
+
+  
+  fs.readFile("./data/c.txt", "utf8", function (err, data) {
+    if (err) {
+      //return console.log("读取失败")
+      //抛出异常
+      //   1.阻止程序的执行
+      //   2.把错误消息打印到控制台
+      throw err;
+    }
+    console.log(data);
+  });
+  
+```
+为了解决以上编码方式带来的问题 (回调地狱嵌套) 所以在EcmaScript6 中新增了一个API,`Promise`
+ * Promise 的英文就是承诺，保证的意思 (I promise you)
+Promise基本语法:
+```javascript
+
+```
+### 10.3.Generator 生成器函数
+async函数
+
+### 10.4.修改完代码自动重启
 
 我们这里可以是哟个一个第三方命令行工具， `nodemon` 来帮我们解决频繁修改代码重启服务器问题。
 `nodemon` 是一个基于 Node.js 开发的一个第三方命令行工具，我们使用的时候需要独立安装
@@ -782,7 +871,7 @@ nodemon app.js
 
 只要是通过 `nodemon app.js` 启动的服务，则它会监视你的文件变化，当文件发生变化的时候，自动帮你重启服务器。
 
-### 10.3 文件操作路径和模块路径
+### 10.5 文件操作路径和模块路径
 
 文件操作路径
 
