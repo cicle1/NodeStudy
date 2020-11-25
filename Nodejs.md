@@ -274,9 +274,10 @@
   ```
 
   ### 6.2.npm 命令行工具
-    npm 的第二层含义就是一个命令行工具，只要逆安装了 node 就已经安装了 npm
-    npm 也有版本这个概念
-    可以通过命令行中输入:
+
+  npm 的第二层含义就是一个命令行工具，只要逆安装了 node 就已经安装了 npm
+  npm 也有版本这个概念
+  可以通过命令行中输入:
 
   ```shell
   npm --version
@@ -290,28 +291,28 @@
 
   ### 6.3.常用命令
 
-  * npm init
+  - npm init
     - npm init -y 可以跳过向导，快速生成
-  * npm install
+  - npm install
     - 一次性把 dependencies 选项中的依赖项全部安装
     - npm i
-  * npm install 包名
+  - npm install 包名
     - 只下载
-  * npm install --save 包名
+  - npm install --save 包名
     - 下载并保存依赖项(package.json 文件中的 depondencies 选项)
     - npm i -S 包名
-  * npm uninstall 包名
+  - npm uninstall 包名
     - 只删除，如果有依赖会依然保存
-  * npm uninstall --save 包名
+  - npm uninstall --save 包名
     - 删除的同时也会把依赖信息也去除
     - npm un -S 包名
-  * npm help
+  - npm help
     - 查看使用帮助
-  * npm 命令 --help
+  - npm 命令 --help
     - 查看指定命令的使用帮助
     - 例如我忘记了 uninstall 命令的简写，这个时候，可以输入 `npm uninstall --help` 来查看使用帮助
 
-  - 解决 npm 被墙问题
+  * 解决 npm 被墙问题
     npm 存储包文件的服务器在国外，有时候会被墙，速度很慢，所以我们需要解决这个问题
     http://npm.taobao.org/ 淘宝的开发团队把 npm 在国内做了一个备份
     安装淘宝的 cnpm
@@ -378,26 +379,57 @@
 - 建议执行 `npm install 包名` 的时候都加上 `--save` 这个选项，目的是用来保存依赖项信息
 
 ### 6.1.4.package.json 和 package-lock.json
+
 npm5 以前是不会有 `package-lock.json` 这个文件的。
 npm5 以后才加入了这个文件。
 当你安装包的时候，npm 都会生成或者更新 `pack-lock.json` 这个文件
- * npm5 以后的版本安装包不需要加 `--save` 参数，它会自动保存依赖信息。
- * 当你安装包的时候，会自动创建或者更新 `package-lock.json` 这个文件
- * `package-lock.json` 这个文件会保存 `node_modules` 中的所有包的信息(版本、下载地址)
-   * 这样的话重新 `npm install` 的时候速度就可以提升
- * 从文件来看，有一个`lock` 称之为 锁
-   * 这个 `lock` 是用来锁定版本的
-   * 如果项目依赖了 `1.1.1` 版本
-   * 如果你重新 install 其实会下载最新版本，而不是1.1.1 这个版本
-   * 所以这个 `package-lock.json` 这个文件的另一个作用就是锁定版本号，防止自动升级最新版
- ## 7.Express
+
+- npm5 以后的版本安装包不需要加 `--save` 参数，它会自动保存依赖信息。
+- 当你安装包的时候，会自动创建或者更新 `package-lock.json` 这个文件
+- `package-lock.json` 这个文件会保存 `node_modules` 中的所有包的信息(版本、下载地址)
+  - 这样的话重新 `npm install` 的时候速度就可以提升
+- 从文件来看，有一个`lock` 称之为 锁
+  - 这个 `lock` 是用来锁定版本的
+  - 如果项目依赖了 `1.1.1` 版本
+  - 如果你重新 install 其实会下载最新版本，而不是 1.1.1 这个版本
+  - 所以这个 `package-lock.json` 这个文件的另一个作用就是锁定版本号，防止自动升级最新版
+
+## 7.path 路径操作模块
+
+>  参考文档 http://nodejs.cn/api/path.html
+
+- path.basename
+  - 获取一个路径的文件名(默认包含扩展名) 第二个参数传入后缀可去除
+- path.dirname
+  - 获取一个路径中的目录部分
+- path.extname
+  - 获取一个路径中的扩展名部分
+- path.parse
+  - 把一个路径转为对象
+    - root 根路径
+    - dir 目录
+    - base 包含后缀名的文件名
+    - ext 后缀名
+    - name 不包含后缀名的文件名
+- path.join
+  - 当你需要进行路径拼接的时候，推荐使用这个方法
+- path.isAbsolute 判断一个路径是否是绝对路径
+
+## 8.Node 中的其他成员
+
+在每个模块中，除了 `require`、`exports`等模块相关的 API 之外,还有两个特殊的成员：
+
+- `_dirname` 可以用来获取当前文件模块所属目录的绝对路径
+- `_filename` 可以用来获取当前文件的绝对路径
+
+## 9.Express
 
 原生的 http 在某些方面表现不足以应对我们的开发需求，所以我们就需要使用框架来加快我们的开发效率，框架的目的就是提高效率，让我们的代码更高度统一。
 在 Node 中，有很多 Web 开发框架，我们这里以学习 `express` 为主。
 
 - http://expressjs.com/
 
-### 7.1.起步
+### 9.1.起步
 
 安装：
 
@@ -405,7 +437,7 @@ npm5 以后才加入了这个文件。
 npm install --save express
 ```
 
-### 7.1.2 hello word
+### 9.1.2 hello word
 
 ```javascript
 const express = require("express");
@@ -416,7 +448,7 @@ app.get("/", (req, res) => res.send("Hello word!"));
 app.listen(3000, () => console.log("Example app listening on port 3000!"));
 ```
 
-### 7.1.3.基本路由
+### 9.1.3.基本路由
 
 路由器
 
@@ -441,7 +473,7 @@ app.post("/", function (req, res) {
 });
 ```
 
-### 7.1.4.静态服务
+### 9.1.4.静态服务
 
 ```javascript
 // /public资源
@@ -459,7 +491,7 @@ app.use("/static", experss.static("static"));
 app.use("/static", express.static(path.join(_dirname, "public")));
 ```
 
-### 7.2 在 Express 中配置使用 `art-template` 模板引擎
+### 9.2 在 Express 中配置使用 `art-template` 模板引擎
 
 - art-template-GitHub 仓库 https://github.com/aui/art-template
 - art-template 官方文档 https://aui.github.io/art-template/express/
@@ -494,7 +526,7 @@ app.get("/", function (req, res) {
 app.set("views", 目录路径);
 ```
 
-### 7.3.在 Express 中获取表单 GET 请求参数
+### 9.3.在 Express 中获取表单 GET 请求参数
 
 Express 内置了一个 API ，可以直接通过 `req.query`来获取
 
@@ -502,7 +534,7 @@ Express 内置了一个 API ，可以直接通过 `req.query`来获取
 req.query;
 ```
 
-### 7.4.在 Express 获取表单 POST 请求体数据
+### 9.4.在 Express 获取表单 POST 请求体数据
 
 在 Express 中没有内置获取表单 POST 请求体的 API ，这里我们需要使用一个第三方包，`body-parser`
 
@@ -542,26 +574,26 @@ app.use(function (req, res) {
 });
 ```
 
-### 7.5.CRUD 案例
+### 9.5.CRUD 案例
 
-#### 7.5.1.起步
+#### 9.5.1.起步
 
 - 初始化
 - 安装依赖
 - 模板处理
 
-#### 7.5.2.路由设计
+#### 9.5.2.路由设计
 
 - [ ] | 请求方法 | 请求路径         | get 参数 | post 参数                  | 备注             |
-      | -------- | ---------------- | -------- | -------------------------- | ---------------- |
-      | GET      | /students        |          |                            | 渲染首页         |
-      | GET      | /students/new    |          |                            | 渲染添加学生页面 |
-      | POST     | /students        |          | name、age、gender、hobbies | 处理添加学生请求 |
-      | GET      | /students/edit   | id       |                            | 渲染编辑         |
-      | POST     | /students/edit   |          | id、age、gender、hobbies   | 处理编辑请求     |
-      | GET      | /students/delete | id       |                            | 处理删除请求     |
+  | -------- | ---------------- | -------- | -------------------------- | ---------------- |
+  | GET      | /students        |          |                            | 渲染首页         |
+  | GET      | /students/new    |          |                            | 渲染添加学生页面 |
+  | POST     | /students        |          | name、age、gender、hobbies | 处理添加学生请求 |
+  | GET      | /students/edit   | id       |                            | 渲染编辑         |
+  | POST     | /students/edit   |          | id、age、gender、hobbies   | 处理编辑请求     |
+  | GET      | /students/delete | id       |                            | 处理删除请求     |
 
-#### 7.5.3.提取路由模块
+#### 9.5.3.提取路由模块
 
 router.js
 
@@ -610,7 +642,7 @@ var router = require("./router");
 app.use(router);
 ```
 
-#### 7.5.4.设计操作数据的 API 文件模块
+#### 9.5.4.设计操作数据的 API 文件模块
 
 ```javascript
 /**
@@ -641,7 +673,7 @@ exports.update = function () {};
 exports.delete = function () {};
 ```
 
-#### 7.5.5.自己编写的步骤
+#### 9.5.5.自己编写的步骤
 
 - 处理模板
 - 配置开放静态资源
@@ -671,75 +703,96 @@ exports.delete = function () {};
 - find
 - findIndex
 
-## 8.MongoDB
+## 10.MongoDB
 
-### 8.1.关系型数据库和非关系型数据库
+### 10.1.关系型数据库和非关系型数据库
+
 表就是关系
 或者说表与表之间存在关系。
- * 所有的关系型数据库都需要通过 `sql` 语言来操作
- * 所有的关系型数据库在操作之前都需要设计表结构
- * 而且数据表还支持约束
-   * 唯一的
-   * 主键
-   * 默认值
-   * 非空
- * 非关系型数据库非常的灵活
- * 有的非关系型数据库就是 key-value 对儿
- * 但是 MongoDB 是长的最像关系型数据库的非关系型数据库
-   * 数据库=》数据库
-   * 数据表=》集合（数组）
-   * 表记录=》文档对象
- * MongoDB 不需要设计表结构
- * 也就是说你可以任意的往里面存数据，没有结构性这么一说
-### 8.2.安装
- * 64位下载地址 https://www.mongodb.org/dl/win32
- * 32位下载地址 https://www.mongodb.org/dl/win32/i386
- * 下载
- * 安装
- * 配置环境变量
- * 最后输入 `mongod --varsion` 查看是否安装成功
-### 8.3.启动和关闭数据库
+
+- 所有的关系型数据库都需要通过 `sql` 语言来操作
+- 所有的关系型数据库在操作之前都需要设计表结构
+- 而且数据表还支持约束
+  - 唯一的
+  - 主键
+  - 默认值
+  - 非空
+- 非关系型数据库非常的灵活
+- 有的非关系型数据库就是 key-value 对儿
+- 但是 MongoDB 是长的最像关系型数据库的非关系型数据库
+  - 数据库=》数据库
+  - 数据表=》集合（数组）
+  - 表记录=》文档对象
+- MongoDB 不需要设计表结构
+- 也就是说你可以任意的往里面存数据，没有结构性这么一说
+
+### 10.2.安装
+
+- 64 位下载地址 https://www.mongodb.org/dl/win32
+- 32 位下载地址 https://www.mongodb.org/dl/win32/i386
+- 下载
+- 安装
+- 配置环境变量
+- 最后输入 `mongod --varsion` 查看是否安装成功
+
+### 10.3.启动和关闭数据库
+
 启动：
+
 ```shell
 # mongodb 默认使用执行 mongo 命令所处盘符根目录下的 /data/db 作为自己的数据存储目录
 # 所以在第一次执行该命令之前先自己手动建一个 /data/db
 mongod
 ```
+
 如果想要修改默认的数据存储目录，可以：
+
 ```shell
 mongod --dbpath=数据存储目录路径
 ```
+
 停止：
+
 ```shell
 在开启服务额控制台，直接 Ctrl+c 即可停止
 或者直接关闭开启服务器的控制台也可以
 ```
-### 8.4.连接和退出数据库
+
+### 10.4.连接和退出数据库
+
 连接：
+
 ```shell
 # 该命令默认连接本机的 MongoDB 服务
 mongo
 ```
+
 退出：
+
 ```shell
 # 在连接状态输入 exit 退出连接
 exit
 ```
-### 8.5.基本命令
+
+### 10.5.基本命令
+
 - `show dbs`
-  * 查看显示所有的数据库
+  - 查看显示所有的数据库
 - `use 数据库名称`
-  * 切换到指定的数据库(如果没有会新建)
+  - 切换到指定的数据库(如果没有会新建)
 - 插入数据
-### 8.6.在 Node 中如何操作 MongoDB 数据
-#### 8.6.1.使用官方的 `mongodb` 包来操作
+
+### 10.6.在 Node 中如何操作 MongoDB 数据
+
+#### 10.6.1.使用官方的 `mongodb` 包来操作
+
 https://github.com/mongodb/node-mongodb-native
-#### 8.6.2.使用第三方 mongoose 来操作 MongoDB 数据库
 
+#### 10.6.2.使用第三方 mongoose 来操作 MongoDB 数据库
 
-## 9.异步编程
+## 11.异步编程
 
-### 9.1 回调函数
+### 11.1 回调函数
 
 不成立的情况
 
@@ -798,11 +851,15 @@ get("data.json", function (data) {
 });
 ```
 
-## 10.其他
-### 10.2.Promise
+## 12.其他
+
+### 12.2.Promise
+
+> 参考文档：https://es6.ruanyifeng.com/#docs/promise
 callback hell
 
 不按顺序执行的代码
+
 ```javascript
 var fs = require("fs");
 
@@ -817,41 +874,115 @@ fs.readFile("./data/a.txt", "utf8", function (err, data) {
   console.log(data);
 });
 
-
 fs.readFile("./data/b.txt", "utf8", function (err, data) {
-    if (err) {
-      //return console.log("读取失败")
-      //抛出异常
-      //   1.阻止程序的执行
-      //   2.把错误消息打印到控制台
-      throw err;
-    }
-    console.log(data);
-  });
+  if (err) {
+    //return console.log("读取失败")
+    //抛出异常
+    //   1.阻止程序的执行
+    //   2.把错误消息打印到控制台
+    throw err;
+  }
+  console.log(data);
+});
 
-  
+fs.readFile("./data/c.txt", "utf8", function (err, data) {
+  if (err) {
+    //return console.log("读取失败")
+    //抛出异常
+    //   1.阻止程序的执行
+    //   2.把错误消息打印到控制台
+    throw err;
+  }
+  console.log(data);
+});
+```
+
+为了解决以上编码方式带来的问题 (回调地狱嵌套) 所以在 EcmaScript6 中新增了一个 API,`Promise`
+
+- Promise 的英文就是承诺，保证的意思 (I promise you)
+  Promise 基本语法:
+
+```javascript
+var fs = require("fs");
+const { resolve } = require("path");
+
+//console.log(1)
+//在 EcmaScript 6 中新增了一个 API promise
+//Promise 是一个构造函数
+
+//创建 Promise 容器
+//1.给别人一个承诺 I promise you.
+//  Promise 容器一旦创建，就开始执行里面的代码
+
+var p1 = new Promise(function (resolve, reject) {
+  // console.log(2)
+  fs.readFile("./data/a.txt", "utf8", function (err, data) {
+    if (err) {
+      //失败了 承诺容器中的任务失败了
+      // console.log(err)
+      //把容器的 Pending 状态变为 Rejected
+
+      //调用reject 就相当于调用了 then 方法的第二个参数函数
+      reject(err);
+    } else {
+      //console.log(3)
+      //承诺容器中的任务成功了
+      //console.log(data)
+      //把容器的 Pending 状态改为成功 Resolved
+      //也会是说这里调用的 resolve 方法实际上就是 then 方法 传递的那个 function
+      resolve(data);
+    }
+  });
+});
+//console.log(4)
+
+//p1 就是那个承诺
+//当 p1 成功了 然后（then) 做指定的操作
+//then 的方法接收的 function 就是容器中的 resolve 函数
+var p2 = new Promise(function (resolve, reject) {
+  fs.readFile("./data/b.txt", "utf8", function (err, data) {
+    if (err) {
+      reject(err);
+    } else {
+      resolve(data);
+    }
+  });
+});
+var p3 = new Promise(function (resolve, reject) {
   fs.readFile("./data/c.txt", "utf8", function (err, data) {
     if (err) {
-      //return console.log("读取失败")
-      //抛出异常
-      //   1.阻止程序的执行
-      //   2.把错误消息打印到控制台
-      throw err;
+      reject(err);
+    } else {
+      resolve(data);
     }
+  });
+});
+p1.then(function (data) {
+  console.log(data);
+  //当p1读取成功的时候
+  //当前函数中 return 的结果就可以在后面的 then 中function 接收到
+  //当你 return 123 后面接收到的就是 123
+  //  return hello 后面后面接收到就是 hello
+  //没有return 后面就是 undefind
+  //真正有用的是 return 一个promise 对象
+  //当 return 一个 Promise 对象的时候，后续的 then 中的 方法的第一个参数会作为 p2 resolve
+
+  return p2;
+})
+  .then(function (data) {
+    console.log(data);
+    return p3;
+  })
+  .then(function (data) {
     console.log(data);
   });
-  
 ```
-为了解决以上编码方式带来的问题 (回调地狱嵌套) 所以在EcmaScript6 中新增了一个API,`Promise`
- * Promise 的英文就是承诺，保证的意思 (I promise you)
-Promise基本语法:
-```javascript
 
-```
-### 10.3.Generator 生成器函数
-async函数
+### 12.3.Generator 生成器函数
 
-### 10.4.修改完代码自动重启
+async 函数
+
+### 12.4.修改完代码自动重启
 
 我们这里可以是哟个一个第三方命令行工具， `nodemon` 来帮我们解决频繁修改代码重启服务器问题。
 `nodemon` 是一个基于 Node.js 开发的一个第三方命令行工具，我们使用的时候需要独立安装
@@ -871,7 +1002,7 @@ nodemon app.js
 
 只要是通过 `nodemon app.js` 启动的服务，则它会监视你的文件变化，当文件发生变化的时候，自动帮你重启服务器。
 
-### 10.5 文件操作路径和模块路径
+### 12.5 文件操作路径和模块路径
 
 文件操作路径
 

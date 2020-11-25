@@ -1,1 +1,54 @@
-{"students":[{"id":0,"name":"黑熊","gender":"1","age":"16","hobbies":"读书，看报"},{"name":"撒啊","gender":"0","age":"88","hobbies":"fbodfjkobjd;f","id":2}]}
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "age": 18,
+      "job": 2
+    },
+    {
+      "id": 2,
+      "username": "拉拉",
+      "age": 18,
+      "job": 4
+    },
+    {
+      "id": 3,
+      "username": "a师傅",
+      "age": 18,
+      "job": 3
+    },
+    {
+      "id": 4,
+      "username": "student",
+      "age": 18,
+      "job": 1
+    }
+  ],
+  "jobs": [
+    {
+      "id": 1,
+      "name": "学生"
+    },
+    {
+      "id": 2,
+      "name": "老师"
+    },
+    {
+      "id": 3,
+      "name": "司机"
+    },
+    {
+      "id": 4,
+      "name": "画家"
+    },
+    {
+      "id": 5,
+      "name": "演员"
+    },
+    {
+      "id": 6,
+      "name": "电竞人"
+    }
+  ]
+}
