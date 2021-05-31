@@ -1,0 +1,31 @@
+body {
+  background-color: #f8f8f8;
+}
+.main {
+
+  width: 300px;
+  margin: 50px auto 0;
+ 
+ 
+}
+.header{
+    text-align: center;
+}
+form{
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #cccccc;
+}
+h1 {
+  text-align: center;
+  font-size: 28px;
+}
+
+
+.go {
+  border: 1px solid #cccccc;
+  margin: 20px auto 0;
+  width: 300px;
+  display: block;
+  text-align: left;
+}

@@ -571,7 +571,6 @@ var app = express();
 //也就是说你就可以直接通过 req.body 来获取表单 POST 请求体数据了
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
-
 // parse application/json
 app.use(bodyParser.json());
 ```

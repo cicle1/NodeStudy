@@ -33,16 +33,16 @@ connection.query(sql,function (err, result) {
 
 //插入一条数据
 
-// var  addSql = 'INSERT INTO users(Id,username,password) VALUES(NULL,?,?)';
-// var  addSqlParams = ['admin2', '123'];
-// connection.query(addSql,addSqlParams, function (error, results) {
-//   if (error) throw error;
-//   console.log("The soletion is:", results);
-// });
-// connection.query('INSERT INTO users VALUES(NULL,"admin","123456")', function (error, results, fields) {
-//   if (error) throw error;
-//   console.log("The soletion is:", results);
-// });
+var  addSql = 'INSERT INTO users(Id,username,password) VALUES(NULL,?,?)';
+var  addSqlParams = ['admin2', '123'];
+connection.query(addSql,addSqlParams, function (error, results) {
+  if (error) throw error;
+  console.log("The soletion is:", results);
+});
+connection.query('INSERT INTO users VALUES(NULL,"admin","123456")', function (error, results, fields) {
+  if (error) throw error;
+  console.log("The soletion is:", results);
+});
 
 //更新数据
 // var modSql = 'UPDATE users SET username = ?,password = ? WHERE Id = ?';
