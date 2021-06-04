@@ -1,8 +1,16 @@
-const cheerio = require("cheerio");
+const cheerio = require("cheerio"); //获取HTML文档内容，内容的获取跟jquery一样
 const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
-//获取HTML文档内容，内容的获取跟jquery一样
+
+//将延迟函数封装成promise对象
+function lcWait(delay) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve("成功延迟:" + delay);
+    }, delay);
+  });
+}
 
 let httpUrl = "https://www.doutula.com/";
 
@@ -25,25 +33,26 @@ async function getListPage(pageNum) {
     $("#home .col-sm-9>a").each((i, element) => {
       let pageUrl = element.attribs.href;
       let title = $(element).find(".random_title").text();
-      console.log(title);
-      let reltitle = title.substring(0,3);
-
-      console.log(reltitle);
-      fs.mkdir("./img/" + reltitle, function (err) {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log("成功创建目录：" + "./img/" + title);
-        }
-      });
+      let reltitle = title.match(/[\u4e00-\u9fa5]{2,6}/)[0];
+      if (!fs.existsSync("./img/" + reltitle)) {
+        fs.mkdir("./img/" + reltitle, function (err) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log("成功创建目录：" + "./img/" + reltitle);
+          }
+        });
+      }
       //console.log(reltitle);
       //console.log(pageUrl)
-      parsePage(pageUrl, reltitle);
+
+      parsePage(pageUrl, reltitle, i);
     });
   });
 }
 
-async function parsePage(pageUrl, title) {
+async function parsePage(pageUrl, title, i) {
+  await lcWait(1000 * i);
   let { data } = await axios.get(pageUrl);
   // console.log(data)
   let $ = cheerio.load(data);
@@ -70,8 +79,9 @@ async function parsePage(pageUrl, title) {
 async function getAll() {
   let allNum = await getNum();
   console.log(allNum);
-  for (let i = 1; i < 2; i++) {
-      getListPage(i);
+  for (let i = 1; i < allNum; i++) {
+    await lcWait(1000 * i);
+    getListPage(i);
   }
 }
 getAll();
